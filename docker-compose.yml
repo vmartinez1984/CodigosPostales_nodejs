@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URI:mongodb://root:123456@localhost:27017/CodigosPostales
+    restart: always
+  
+  mongodb:
+    image: mongo:latest
+    container_name: mongodbcp
+    ports:
+      - "27017:27017"
+    environment:      
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+    volumes:
+      - mongo-data:/data/db  # Persistencia de datos
+      - ./backup:/docker-entrypoint-initdb.d  # Restaura el respaldo
+
+volumes:
+  mongo-data:

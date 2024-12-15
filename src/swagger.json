@@ -1,0 +1,198 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Api rest de códigos postales de México",
+        "version": "1.0.0",
+        "title": "ApiRest Códigos Postales",
+        "contact": {
+            "email": "ahal_tocob@hotmail.com"
+        }
+    },
+    "host": "vmartinez.herokuapp.com",
+    "basePath": "/api",
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "paths": {
+        "/codigosPostales/estados": {
+            "get": {
+                "tags": [
+                    "Estado"
+                ],
+                "summary": "Obtener lista de estados",
+                "description": "Multiple status values can be provided with comma separated strings",
+                "operationId": "findPetsByStatus",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Estado"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value"
+                    }
+                }
+            }
+        },
+        "/codigosPostales/estados/{estado}/alcaldias": {
+            "get": {
+                "tags": [
+                    "Alcaldias"
+                ],
+                "summary": "Obtiene la lista de alcaldias del estado solicitado",
+                "description": "Returns a list of municipalities",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "estado",
+                        "in": "path",
+                        "description": "nombre del estado",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Alcaldia"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Estado invalido"
+                    },
+                    "404": {
+                        "description": "Estado no encontrado"
+                    }
+                }
+            }
+        },
+        "/codigosPostales/estados/{estado}/alcaldias/{alcaldia}": {
+            "get": {
+                "tags": [
+                    "Código Postal"
+                ],
+                "summary": "Obtiene la lista de códigos postales deacuerdo a la alcaldia y estado solicitado",
+                "description": "Returns a list of municipalities",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "estado",
+                        "in": "path",
+                        "description": "nombre del estado",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "alcaldia",
+                        "in": "path",
+                        "description": "nombre de la alcaldia",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/CodigoPostal"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Datos invalidos invalido"
+                    },
+                    "404": {
+                        "description": "Código postal no encontrado"
+                    }
+                }
+            }
+        },
+        "/codigosPostales/{CodigoPostal}": {
+            "get": {
+                "tags": [
+                    "Código Postal"
+                ],
+                "summary": "Obtiene la lista de códigos postales",
+                "description": "Returns a list of zip codes",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "CodigoPostal",
+                        "in": "path",
+                        "description": "Código Postal",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/CodigoPostal"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Datos invalidos invalido"
+                    },
+                    "404": {
+                        "description": "Código postal no encontrado"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "CodigoPostal": {
+            "type": "object",
+            "properties": {
+                "ZipCode": {
+                    "type": "string"
+                },
+                "State": {
+                    "type": "string"
+                },
+                "Municipality": {
+                    "type": "string"
+                },
+                "SettementType": {
+                    "type": "string"
+                },
+                "Settement": {
+                    "type": "string"
+                }
+            },
+            "xml": {
+                "name": "ZipCode"
+            }
+        },
+        "Estado": {
+            "type": "string"
+        },
+        "Alcaldia": {
+            "type": "string"
+        }
+    }
+}
