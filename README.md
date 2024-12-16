@@ -26,3 +26,13 @@ Guia de open Api https://swagger.io/docs/specification/basic-structure/
 
 npm install cors
 https://www.npmjs.com/package/cors
+
+
+Para eleiminar los contenedoes de esa sesion -> docker-compose rm
+
+para construir solo las imagenes -> docker-compose build --no-cache
+
+Ejecutar el contenerdo -> docker-compose up   si le agregamos -d suelta la terminal, detach
+
+### informacion de la conecion y sus propiedades
+https://www.mongodb.com/docs/manual/reference/connection-string-options/#mongodb-urioption-urioption.authSource

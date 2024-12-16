@@ -8,20 +8,41 @@ services:
     depends_on:
       - mongodb
     environment:
-      - MONGO_URI:mongodb://root:123456@localhost:27017/CodigosPostales
+      MONGO_URI: "mongodb://root:123456@mongodb:27017/CodigosPostales"
+      # despues del @ en este caso @mongodb, es el nombre del servicio, para que internamente se configure y conecte
     restart: always
-  
+    networks: # Este es necesario para que se puedan conectar la app con la base de datos
+      - app-network
+
   mongodb:
     image: mongo:latest
-    container_name: mongodbcp
     ports:
       - "27017:27017"
     environment:      
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123456
+      MONGO_INITDB_DATABASE: CodigosPostales
     volumes:
       - mongo-data:/data/db  # Persistencia de datos
-      - ./backup:/docker-entrypoint-initdb.d  # Restaura el respaldo
+      - ./mongo-init:/docker-entrypoint-initdb.d 
+    networks: 
+      - app-network
+
+  mongo-init:
+    image: mongo:latest           # Usamos la misma imagen de MongoDB para importar datos
+    container_name: mongo-import
+    command: "mongoimport --host mongodb --username root --password 123456 --authenticationDatabase admin --db CodigosPostales --collection CodigosPostales --file ./data/CodigosPostales.json --jsonArray --upsert" 
+    # -- upsert El upsert realiza una inserción si el documento no existe, o lo actualiza si ya existe, basándose en un campo único (como _id o cualquier otro campo único que elijas).
+    volumes:
+      - ./mongo-init:/data  # Montamos el archivo JSON en el contenedor
+    depends_on:
+      - mongodb                   # Espera que MongoDB esté en ejecución
+    networks:
+      - app-network
 
 volumes:
   mongo-data:
+
+networks:   # los crea en el mismo segmento
+  app-network:
+    driver: bridge
