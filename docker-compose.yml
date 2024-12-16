@@ -3,6 +3,7 @@ services:
   app:
     build:
       context: .
+    container_name: app
     ports:
       - "3000:3000"
     depends_on:
@@ -15,6 +16,7 @@ services:
       - app-network
 
   mongodb:
+    container_name: db
     image: mongo:latest
     ports:
       - "27017:27017"
@@ -22,9 +24,9 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123456
       MONGO_INITDB_DATABASE: CodigosPostales
-    volumes:
-      - mongo-data:/data/db  # Persistencia de datos
-      - ./mongo-init:/docker-entrypoint-initdb.d 
+    #volumes:
+    #  - mongo-data:/data/db  # Persistencia de datos
+    #  - ./mongo-init:/docker-entrypoint-initdb.d 
     networks: 
       - app-network
 
