@@ -3,9 +3,13 @@ const { route } = require("express/lib/application");
 const router = express.Router();
 const zipCodeRepository = require("../repositories/zipCodeRepository");
 
-router.get("/api/CodigosPostales/HolaMundo", (req, res) => {
+router.get("/api/Tests/HolaMundo", (req, res) => {
   console.log("Hola mundo, Códigos postales");
-  res.status(200).json({ Mensaje: "Hola mundo, Códigos postales" });
+  if(req.query.saludo == undefined)
+    mensaje = "Hola mundo, Códigos postales";
+  else
+    mensaje = req.query.saludo
+  res.status(200).json({ mensaje: mensaje, "fecha": new Date() });  
 });
 
 /**
@@ -20,6 +24,7 @@ router.get("/api/CodigosPostales/Aleatorio", async (req, res) => {
     //console.log(random);
     var codigosPostales = await zipCodeRepository.find({ Id: random });
 
+    delete codigosPostales[0]["_id"]
     res.status(200).json(codigosPostales[0]);
   } catch (error) {
     console.log(error);

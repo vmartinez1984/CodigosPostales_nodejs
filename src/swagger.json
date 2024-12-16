@@ -1,198 +1,347 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "description": "Api rest de códigos postales de México",
-        "version": "1.0.0",
-        "title": "ApiRest Códigos Postales",
-        "contact": {
-            "email": "ahal_tocob@hotmail.com"
-        }
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Api de Código Postales",
+    "description": "Es un api de los códigos postales de SEPOMEX",
+    "contact": {
+      "name": "Víctor Martínez",
+      "url": "mailto:ahal_tocob@hotmail.com"
     },
-    "host": "vmartinez.herokuapp.com",
-    "basePath": "/api",
-    "schemes": [
-        "https",
-        "http"
-    ],
-    "paths": {
-        "/codigosPostales/estados": {
-            "get": {
-                "tags": [
-                    "Estado"
-                ],
-                "summary": "Obtener lista de estados",
-                "description": "Multiple status values can be provided with comma separated strings",
-                "operationId": "findPetsByStatus",
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Estado"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid status value"
-                    }
+    "version": "v3"
+  },
+  "paths": {
+    "/api/CodigosPostales/Estados": {
+      "get": {
+        "tags": ["CodigosPostales"],
+        "summary": "Lista de estados",
+        "operationId": "Estados",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Estado"
                 }
+              }
             }
-        },
-        "/codigosPostales/estados/{estado}/alcaldias": {
-            "get": {
-                "tags": [
-                    "Alcaldias"
-                ],
-                "summary": "Obtiene la lista de alcaldias del estado solicitado",
-                "description": "Returns a list of municipalities",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "estado",
-                        "in": "path",
-                        "description": "nombre del estado",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Alcaldia"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Estado invalido"
-                    },
-                    "404": {
-                        "description": "Estado no encontrado"
-                    }
-                }
-            }
-        },
-        "/codigosPostales/estados/{estado}/alcaldias/{alcaldia}": {
-            "get": {
-                "tags": [
-                    "Código Postal"
-                ],
-                "summary": "Obtiene la lista de códigos postales deacuerdo a la alcaldia y estado solicitado",
-                "description": "Returns a list of municipalities",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "estado",
-                        "in": "path",
-                        "description": "nombre del estado",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "alcaldia",
-                        "in": "path",
-                        "description": "nombre de la alcaldia",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/CodigoPostal"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Datos invalidos invalido"
-                    },
-                    "404": {
-                        "description": "Código postal no encontrado"
-                    }
-                }
-            }
-        },
-        "/codigosPostales/{CodigoPostal}": {
-            "get": {
-                "tags": [
-                    "Código Postal"
-                ],
-                "summary": "Obtiene la lista de códigos postales",
-                "description": "Returns a list of zip codes",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "CodigoPostal",
-                        "in": "path",
-                        "description": "Código Postal",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/CodigoPostal"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Datos invalidos invalido"
-                    },
-                    "404": {
-                        "description": "Código postal no encontrado"
-                    }
-                }
-            }
+          }
         }
+      }
     },
-    "definitions": {
-        "CodigoPostal": {
-            "type": "object",
-            "properties": {
-                "ZipCode": {
-                    "type": "string"
-                },
-                "State": {
-                    "type": "string"
-                },
-                "Municipality": {
-                    "type": "string"
-                },
-                "SettementType": {
-                    "type": "string"
-                },
-                "Settement": {
-                    "type": "string"
-                }
-            },
-            "xml": {
-                "name": "ZipCode"
+    "/api/CodigosPostales/Estados/{estado}/Alcaldias": {
+      "get": {
+        "tags": ["CodigosPostales"],
+        "summary": "Lista de municipios por estado",
+        "parameters": [
+          {
+            "name": "estado",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
-        },
-        "Estado": {
-            "type": "string"
-        },
-        "Alcaldia": {
-            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Alcaldia"
+                }
+              }
+            }
+          }
         }
+      }
+    },
+    "/api/CodigosPostales/Estados/{estado}/Alcaldias/{alcaldia}": {
+      "get": {
+        "tags": ["CodigosPostales"],
+        "summary": "Códigos por estado y alcaldia",
+        "parameters": [
+          {
+            "name": "estado",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "alcaldia",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CodigoPostalDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CodigosPostales/{codigoPostal}": {
+      "get": {
+        "tags": ["CodigosPostales"],
+        "summary": "Obtener la lista de codigos postales",
+        "parameters": [
+          {
+            "name": "codigoPostal",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "maxLength": 5,
+              "minLength": 5,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CodigoPostalDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CodigosPostales/{asentamiento}/Buscar": {
+      "get": {
+        "tags": ["CodigosPostales"],
+        "summary": "Obtener los codigos psotales a partir del nombre de una colonia",
+        "parameters": [
+          {
+            "name": "asentamiento",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CodigoPostalDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CodigosPostales/Estados/{estado}/Alcaldias/{alcaldia}/{asentamiento}/Buscar": {
+      "get": {
+        "tags": ["CodigosPostales"],
+        "summary": "Obtener los codigos psotales a partir del nombre de una colonia",
+        "parameters": [
+          {
+            "name": "estado",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "alcaldia",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "asentamiento",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CodigoPostalDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CodigosPostales/Aleatorio": {
+      "get": {
+        "tags": ["CodigosPostales"],
+        "summary": "Obtiene un codigo postal aleatorio",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CodigoPostalDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CodigosPostales/Estados/{estado}/Aleatorio": {
+      "get": {
+        "tags": ["CodigosPostales"],
+        "summary": "Obtiene un codigo postal aleatorio",
+        "parameters": [
+          {
+            "name": "estado",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CodigoPostalDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Tests/HolaMundo": {
+      "get": {
+        "tags": ["Tests"],
+        "summary": "Hola mundo",
+        "parameters": [
+          {
+            "name": "saludo",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
+  },
+  "components": {
+    "schemas": {
+      "Alcaldia": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CodigoPostalDto": {
+        "type": "object",
+        "properties": {
+          "codigoPostal": {
+            "type": "string",
+            "nullable": true
+          },
+          "alcaldiaId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estado": {
+            "type": "string",
+            "nullable": true
+          },
+          "estadoId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "alcaldia": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoDeAsentamiento": {
+            "type": "string",
+            "nullable": true
+          },
+          "asentamiento": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Estado": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
 }
