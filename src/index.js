@@ -1,5 +1,4 @@
 const express = require("express");
-const path = require("path");
 const bodyParser = require("body-parser");
 const conectarDB = require("./config/db");
 const cors = require('cors');
@@ -22,4 +21,5 @@ app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(process.env.PORT || 3000, () => {
     console.log("El servidor está inicializado en el puerto 3000");
+    console.log("http://localhost:3000")
 });
